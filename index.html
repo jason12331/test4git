@@ -19,6 +19,11 @@
     <select class="form">
       <option value="">請選擇形式</option>
     </select>
+      <select class="space">
+        <option value="">請選擇形式</option>
+        <option value="1">有機車位</option>
+        <option value="0">無機車位</option>
+      </select>
   
   <ul class="ul">
     
@@ -10624,6 +10629,7 @@ let data=[
 ]
 let area = document.querySelector(".list");
 let type = document.querySelector(".form");
+let motor = document.querySelector(".space")
 let list = document.querySelector(".ul");
 
 let dataSet = new Set();
@@ -10654,6 +10660,7 @@ data.forEach((item,index)=>{
   }
 })
 
+
 for(let item of dataSet){
   area.innerHTML+=`<option value='${item}'>${item}</option>`;
 }
@@ -10683,25 +10690,43 @@ area.addEventListener("change",function(e){
       }
     }
     list.innerHTML=str1;
+    motor.addEventListener("change",function(e){
+      var str2='';
+      let _motor = motor.value;
+      list.innerHTML='';
+      for(let item in data){
+        if(_area == data[item].行政區 && _type == data[item].型式){
+          if(_motor == 1 && data[item].機車車位>0){
+            str2+=`<li>${data[item].行政區+"（"+"有機車車位"+"） —  "+data[item].停車場名稱}</li>`;
+          }
+          if(_motor == 0){
+            if(data[item].機車車位 == null || data[item].機車車位 == 0){
+            str2+=`<li>${data[item].行政區+"（"+"無機車車位"+"） —  "+data[item].停車場名稱}</li>`;
+            }
+          }
+        }
+      }
+      list.innerHTML=str2;
+    })
   })
 })
 /////地圖
-function initMap() {
-  /////設定地圖中心
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 13,
-    center: {lat: 22.6048695, lng: 120.298119}
-  });
+// function initMap() {
+//   /////設定地圖中心
+//   var map = new google.maps.Map(document.getElementById('map'), {
+//     zoom: 13,
+//     center: {lat: 22.6048695, lng: 120.298119}
+//   });
 
 
-}
+// }
 
 
-</script>
+// </script>
 
-  <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDy7niYo3hKVoLoxDPCbZqRZWG_x7jml4k&callback=initMap">
-  </script>
+//   <script async defer
+//     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDy7niYo3hKVoLoxDPCbZqRZWG_x7jml4k&callback=initMap">
+//   </script>
 
 </body>
 </html>
